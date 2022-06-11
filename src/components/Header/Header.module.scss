@@ -8,7 +8,13 @@
   height: 80px;
   padding: 0 40px;
   z-index: 100;
-  background: $green;
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(126, 104, 90, 1) 0%,
+    rgba(251, 238, 193, 1) 50%,
+    rgba(231, 113, 125, 1) 100%
+  );
   top: -40px;
   justify-content: center;
 

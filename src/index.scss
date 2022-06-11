@@ -27,17 +27,14 @@ h1 {
   text-transform: uppercase;
 }
 
-h4 {
-  @include text20;
-  text-transform: uppercase;
-  color: $brown;
-}
-
 main {
   width: 100%;
   flex: 1 1 auto;
   padding: 0 25px;
-  background: $cream;
+  background-image: url('./assets/img/wallpaper.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 #root {
