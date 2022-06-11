@@ -1,6 +1,6 @@
 import React, { MouseEvent, useState } from 'react';
 import styles from './LogInPage.module.scss';
-import { Box as div, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { SigninForm, SignUpForm } from '../../components';
 
 export const LogInPage = () => {
