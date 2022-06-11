@@ -53,10 +53,10 @@ export const SignUpForm = () => {
 
   return (
     <form className={styles.signUpForm} onSubmit={handleSubmit(onsubmit)}>
-      <h4>Sign up</h4>
       <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
         <LockOutlinedIcon />
       </Avatar>
+      <h4>Sign up</h4>
       <div className={styles.row}>
         <Controller
           control={control}

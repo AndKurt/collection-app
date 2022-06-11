@@ -1,0 +1,38 @@
+@import '../../styles/variables.scss';
+
+.loginPage {
+  @include flex-column-center-center;
+  padding: 20px 0px;
+
+  .wrapperForm {
+    min-width: 700px;
+    width: auto;
+    height: auto;
+    border-radius: 5px;
+    padding: 10px;
+    background: $white;
+    box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (max-width: 720px) {
+  .loginPage {
+    .wrapperForm {
+      min-width: 600px;
+    }
+  }
+}
+@media (max-width: 620px) {
+  .loginPage {
+    .wrapperForm {
+      min-width: 500px;
+    }
+  }
+}
+@media (max-width: 520px) {
+  .loginPage {
+    .wrapperForm {
+      min-width: 310px;
+    }
+  }
+}
