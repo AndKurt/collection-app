@@ -1,0 +1,9 @@
+@import '../../../styles/variables.scss';
+
+.adminControls {
+  @include df-align-center;
+  justify-content: center;
+  margin: 15px 0;
+  flex-wrap: wrap;
+  background-color: $white;
+}

@@ -1,4 +1,4 @@
-import { Box, Grid, Typography as h5 } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import React from 'react';
 import { RecentlyPost } from '../../components';
 import styles from './HomePage.module.scss';
