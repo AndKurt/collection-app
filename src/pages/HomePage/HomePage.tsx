@@ -1,9 +1,18 @@
 import { Box, Grid } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RecentlyPost } from '../../components';
+import { checkAuthAsync } from '../../redux/actions/authActions';
+import { useAppDispatch } from '../../redux/hooks';
 import styles from './HomePage.module.scss';
 
 export const HomePage = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      dispatch(checkAuthAsync()).unwrap();
+    }
+  }, []);
+
   return (
     <main className={styles.homePage}>
       <Box

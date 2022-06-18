@@ -6,24 +6,27 @@ import {
   registrationUserAsync,
 } from '../actions/authActions';
 
-interface IAuthSlice {
+interface IUserSlice {
   isLoading: boolean;
   error: string;
   isAuth: boolean;
 }
 
-const initialState: IAuthSlice = {
+const initialState: IUserSlice = {
   isLoading: false,
   error: '',
   isAuth: false,
 };
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: 'user',
   initialState,
   reducers: {
     clearError(state) {
       state.error = '';
+    },
+    setIsAuth(state, action: PayloadAction<boolean>) {
+      state.isAuth = action.payload;
     },
   },
   extraReducers: {
@@ -42,7 +45,6 @@ export const authSlice = createSlice({
     [loginUserAsync.pending.type]: (state) => {
       state.isLoading = true;
       state.error = '';
-      state.isAuth = false;
     },
     [loginUserAsync.fulfilled.type]: (state) => {
       state.isLoading = false;
@@ -79,6 +81,7 @@ export const authSlice = createSlice({
     [checkAuthAsync.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
+      state.isAuth = false;
     },
   },
 });
