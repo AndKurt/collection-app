@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './SignUpForm.module.scss';
 import { Avatar, Button, TextField } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
 import {
   emailValidation,
   firstNameValidation,
@@ -12,33 +11,35 @@ import {
 } from '../../utils/validation';
 import { Controller, SubmitHandler, useForm, useFormState } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-//import { registerAPI } from '../../redux/actions/register';
-import { useNavigate } from 'react-router-dom';
 import { ISignUpForm } from '../../interface/signInUp';
+import { registrationUserAsync } from '../../redux/actions/userActions';
 
-export const SignUpForm = () => {
+interface IProps {
+  setAlignment: (condition: string) => void;
+}
+
+export const SignUpForm = ({ setAlignment }: IProps) => {
   const { handleSubmit, control, register, watch, reset } = useForm<ISignUpForm>();
-  //const { isLoading, error } = useAppSelector((state) => state.usersDataReducer);
+  const { error } = useAppSelector((state) => state.userReducer);
   const { errors } = useFormState({
     control,
   });
   const dispatch = useAppDispatch();
-  const navigation = useNavigate();
 
   const password = watch('password');
 
   const onsubmit: SubmitHandler<ISignUpForm> = async (data) => {
     if (data) {
-      //await dispatch(
-      //  registerAPI({
-      //    login: data.login,
-      //    email: data.email,
-      //    firstName: data.firstName,
-      //    lastName: data.lastName,
-      //    password: data.password,
-      //  })
-      //).unwrap();
-      navigation('/login');
+      await dispatch(
+        registrationUserAsync({
+          login: data.login,
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          password: data.password,
+        })
+      ).unwrap();
+      setAlignment('signin');
       reset({
         login: '',
         email: '',
@@ -220,7 +221,7 @@ export const SignUpForm = () => {
           )}
         />
       </div>
-      {/*{error && <p className={styles.error}>{error}</p>}*/}
+      {error && <p className={styles.error}>{error}</p>}
       <Button
         type="submit"
         variant="contained"

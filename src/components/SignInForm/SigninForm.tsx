@@ -5,39 +5,40 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { loginValidation, passwordValidation } from '../../utils/validation';
 import { Controller, SubmitHandler, useForm, useFormState } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-//import { loginApi } from '../../redux/actions/login';
 import { useNavigate } from 'react-router-dom';
-//import { loginSlice } from '../../redux/reducers/loginSlice';
-import { ISignInForm } from '../../interface/signInUp';
+import { ILogin } from '../../interface/signInUp';
+import { loginUserAsync } from '../../redux/actions/userActions';
+import { userSlice } from '../../redux/reducers/userReducer';
 
 export const SigninForm = () => {
-  const { handleSubmit, control, reset, register } = useForm<ISignInForm>();
+  const { handleSubmit, control, reset, register } = useForm<ILogin>();
   const dispatch = useAppDispatch();
   const { errors } = useFormState({
     control,
   });
-  //const { error, isLoading } = useAppSelector((state) => state.loginReducer);
+  const { error } = useAppSelector((state) => state.userReducer);
   const navigation = useNavigate();
-  //const { clearError } = loginSlice.actions;
+  const { clearError } = userSlice.actions;
 
-  useEffect(() => {
-    //dispatch(clearError());
-    localStorage.clear();
-  }, []);
+  //useEffect(() => {
+  //  if (error === 'User unauthorized') {
+  //    dispatch(clearError());
+  //  }
+  //}, []);
 
-  const onsubmit: SubmitHandler<ISignInForm> = async (data) => {
+  const onsubmit: SubmitHandler<ILogin> = async (data) => {
     if (data) {
-      //await dispatch(
-      //  loginApi({
-      //    login: data.login,
-      //    password: data.password,
-      //  })
-      //).unwrap();
+      await dispatch(
+        loginUserAsync({
+          login: data.login,
+          password: data.password,
+        })
+      ).unwrap();
       reset({
         login: '',
         password: '',
       });
-      navigation('/main');
+      navigation('/');
     }
   };
 
@@ -99,7 +100,7 @@ export const SigninForm = () => {
           />
         )}
       />
-      {/*{error && <p className={styles.error}>{error}</p>}*/}
+      {error && <p className={styles.error}>{error}</p>}
       <Button
         type="submit"
         variant="contained"
