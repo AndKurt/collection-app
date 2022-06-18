@@ -3,13 +3,13 @@ import styles from './LogInPage.module.scss';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Loader, SigninForm, SignUpForm } from '../../components';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { userSlice } from '../../redux/reducers/userReducer';
+import { authSlice } from '../../redux/reducers/authReducer';
 
 export const LogInPage = () => {
   const [alignment, setAlignment] = useState('signin');
-  const { isLoading } = useAppSelector((state) => state.userReducer);
+  const { isLoading } = useAppSelector((state) => state.authReducer);
   const dispatch = useAppDispatch();
-  const { clearError } = userSlice.actions;
+  const { clearError } = authSlice.actions;
 
   const handleChange = (event: MouseEvent<HTMLElement>, newAlignment: string) => {
     setAlignment(newAlignment);

@@ -4,22 +4,22 @@ import {
   loginUserAsync,
   logoutUserAsync,
   registrationUserAsync,
-} from '../actions/userActions';
+} from '../actions/authActions';
 
-interface IUserSlice {
+interface IAuthSlice {
   isLoading: boolean;
   error: string;
   isAuth: boolean;
 }
 
-const initialState: IUserSlice = {
+const initialState: IAuthSlice = {
   isLoading: false,
   error: '',
   isAuth: false,
 };
 
-export const userSlice = createSlice({
-  name: 'user',
+export const authSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {
     clearError(state) {
@@ -83,4 +83,4 @@ export const userSlice = createSlice({
   },
 });
 
-export const userReducer = userSlice.reducer;
+export const authReducer = authSlice.reducer;

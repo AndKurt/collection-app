@@ -10,6 +10,8 @@ import { GridRowId } from '@mui/x-data-grid';
 //import { updateUserApi } from '../../redux/actions/updateUser';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../redux/hooks';
+import { getCurrentUserIdJWT } from '../../../utils/jwt';
+import { logoutUserAsync } from '../../../redux/actions/authActions';
 //import { loginSlice } from '../../redux/reducers/loginSlice';
 
 interface IAdminControls {
@@ -23,13 +25,14 @@ export const AdminControls = ({ arrIds }: IAdminControls) => {
   //const { setTokenStatus } = loginSlice.actions;
 
   const logOutUser = () => {
-    const activeUserId = arrIds.find((id) => id === localStorage.getItem('id'));
+    const currentUserId = getCurrentUserIdJWT();
+    const activeUserId = arrIds.find((id) => id === currentUserId);
     if (activeUserId) {
-      localStorage.clear();
-      //dispatch(setTokenStatus(false));
+      dispatch(logoutUserAsync());
       navigation('/login');
     }
   };
+
   const handleDelete = () => {
     if (arrIds.length > 0) {
       //dispatch(deleteUsers(arrIds));

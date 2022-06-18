@@ -12,7 +12,7 @@ import {
 import { Controller, SubmitHandler, useForm, useFormState } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ISignUpForm } from '../../interface/signInUp';
-import { registrationUserAsync } from '../../redux/actions/userActions';
+import { registrationUserAsync } from '../../redux/actions/authActions';
 
 interface IProps {
   setAlignment: (condition: string) => void;
@@ -20,7 +20,7 @@ interface IProps {
 
 export const SignUpForm = ({ setAlignment }: IProps) => {
   const { handleSubmit, control, register, watch, reset } = useForm<ISignUpForm>();
-  const { error } = useAppSelector((state) => state.userReducer);
+  const { error } = useAppSelector((state) => state.authReducer);
   const { errors } = useFormState({
     control,
   });

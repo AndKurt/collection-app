@@ -5,10 +5,10 @@ import styles from './Header.module.scss';
 import AppLogo from '../../assets/img/AppLogo.svg';
 import { Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { logoutUserAsync } from '../../redux/actions/userActions';
+import { logoutUserAsync } from '../../redux/actions/authActions';
 
 export const Header = () => {
-  const { isAuth } = useAppSelector((state) => state.userReducer);
+  const { isAuth } = useAppSelector((state) => state.authReducer);
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {

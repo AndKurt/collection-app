@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import styles from './AdminTable.module.scss';
 import { DataGrid, GridColDef, GridRowId, GridValueGetterParams } from '@mui/x-data-grid';
 import { useState } from 'react';
-import { useAppSelector } from '../../redux/hooks';
-import { AdminControls } from '..';
-import { MOCK_DATA } from '../../mock/mock_data';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { AdminControls, Loader } from '..';
 import { Box } from '@mui/material';
+import { getUsersAsync } from '../../redux/actions/usersAction';
 
 const columns: GridColDef[] = [
   {
@@ -13,7 +13,7 @@ const columns: GridColDef[] = [
     filterable: false,
     hideable: false,
     headerName: 'ID',
-    width: 220,
+    width: 210,
   },
   {
     field: 'admin',
@@ -22,8 +22,9 @@ const columns: GridColDef[] = [
     hideable: false,
     description: 'This column has a value getter and is not sortable.',
     valueGetter: (params: GridValueGetterParams) => `${params.row.isAdmin ? 'Admin' : 'User'} `,
-    width: 100,
+    width: 70,
   },
+  { field: 'login', hideable: false, headerName: 'Login name', width: 90 },
   { field: 'firstName', hideable: false, headerName: 'First name', width: 90 },
   { field: 'lastName', hideable: false, headerName: 'Last name', width: 90 },
   { field: 'email', sortable: false, headerName: 'E-mail', width: 220 },
@@ -49,24 +50,34 @@ const columns: GridColDef[] = [
 
 export const AdminTable = () => {
   const [arrIds, setArrIds] = useState<GridRowId[]>([]);
-  //const { users } = useAppSelector((state) => state.usersDataReducer);
-  //const [test] = useState(users);
+  const dispatch = useAppDispatch();
+  const { isLoading, users } = useAppSelector((state) => state.usersReducer);
+
+  useEffect(() => {
+    dispatch(getUsersAsync());
+  }, []);
 
   return (
     <Box className={styles.wrapper}>
-      <AdminControls arrIds={arrIds} />
-      <DataGrid
-        className={styles.adminTableWrapper}
-        rows={MOCK_DATA}
-        columns={columns}
-        pageSize={MOCK_DATA.length}
-        rowsPerPageOptions={[MOCK_DATA.length]}
-        getRowId={(MOCK_DATA) => MOCK_DATA.id}
-        checkboxSelection
-        hideFooter={true}
-        scrollbarSize={50}
-        onSelectionModelChange={(ids) => setArrIds(ids)}
-      />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <AdminControls arrIds={arrIds} />
+          <DataGrid
+            className={styles.adminTableWrapper}
+            rows={users}
+            columns={columns}
+            pageSize={users.length}
+            rowsPerPageOptions={[users.length]}
+            getRowId={(users) => users._id}
+            checkboxSelection
+            hideFooter={true}
+            scrollbarSize={50}
+            onSelectionModelChange={(ids) => setArrIds(ids)}
+          />
+        </>
+      )}
     </Box>
   );
 };

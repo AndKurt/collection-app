@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AdminPage, CollectionPage, HomePage, LogInPage, NotFoundPage } from '../pages';
-import { checkAuthAsync } from '../redux/actions/userActions';
+import { checkAuthAsync } from '../redux/actions/authActions';
 import { useAppDispatch } from '../redux/hooks';
 
 export const Router = () => {

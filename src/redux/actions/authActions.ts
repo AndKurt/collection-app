@@ -5,7 +5,7 @@ import { BASE_URL } from '../../constants';
 import { ILogin, IRegister } from '../../interface/signInUp';
 
 export const registrationUserAsync = createAsyncThunk(
-  'user/registration',
+  'auth/registration',
   async (data: IRegister, thunkApi) => {
     try {
       const response = await $api.post(`${BASE_URL}/registration`, data);
@@ -18,7 +18,7 @@ export const registrationUserAsync = createAsyncThunk(
   }
 );
 
-export const loginUserAsync = createAsyncThunk('user/login', async (data: ILogin, thunkApi) => {
+export const loginUserAsync = createAsyncThunk('auth/login', async (data: ILogin, thunkApi) => {
   try {
     const response = await $api.post(`${BASE_URL}/login`, data);
 
@@ -31,19 +31,16 @@ export const loginUserAsync = createAsyncThunk('user/login', async (data: ILogin
   }
 });
 
-export const logoutUserAsync = createAsyncThunk('user/logout', async () => {
+export const logoutUserAsync = createAsyncThunk('auth/logout', async () => {
   await $api.post(`${BASE_URL}/logout`);
   localStorage.removeItem('accessToken');
 });
 
-export const checkAuthAsync = createAsyncThunk('user/checkAuth', async (_, thunkApi) => {
+export const checkAuthAsync = createAsyncThunk('auth/checkAuth', async (_, thunkApi) => {
   try {
     const response = await axios.get(`${BASE_URL}/refresh`, {
       withCredentials: true,
     });
-
-    console.log(response);
-
     localStorage.setItem('accessToken', response.data.accessToken);
   } catch (error) {
     const err = error as AxiosError;

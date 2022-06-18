@@ -7,8 +7,8 @@ import { Controller, SubmitHandler, useForm, useFormState } from 'react-hook-for
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useNavigate } from 'react-router-dom';
 import { ILogin } from '../../interface/signInUp';
-import { loginUserAsync } from '../../redux/actions/userActions';
-import { userSlice } from '../../redux/reducers/userReducer';
+import { loginUserAsync } from '../../redux/actions/authActions';
+//import { authSlice } from '../../redux/reducers/authReducer';
 
 export const SigninForm = () => {
   const { handleSubmit, control, reset, register } = useForm<ILogin>();
@@ -16,9 +16,9 @@ export const SigninForm = () => {
   const { errors } = useFormState({
     control,
   });
-  const { error } = useAppSelector((state) => state.userReducer);
+  const { error } = useAppSelector((state) => state.authReducer);
   const navigation = useNavigate();
-  const { clearError } = userSlice.actions;
+  //const { clearError } = authSlice.actions;
 
   //useEffect(() => {
   //  if (error === 'User unauthorized') {
