@@ -1,0 +1,67 @@
+@import '../../styles/variables.scss';
+
+.headerMenu {
+  nav,
+  ul,
+  li {
+    @include df-align-center;
+    display: inline-block;
+    margin: 5px;
+    box-sizing: border-box;
+  }
+
+  a {
+    text-decoration: none;
+    color: $white;
+
+    &:hover {
+      border-bottom: 3px solid $violet;
+    }
+  }
+
+  .mobileNavigation {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .headerMenu {
+    opacity: 1;
+    nav,
+    ul {
+      @include flex-column-center-center;
+      position: fixed;
+      width: 100%;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      margin: 5px 0;
+    }
+
+    li {
+      padding: 10px 0;
+    }
+
+    a:hover {
+      border-bottom: 0;
+      color: $violet;
+    }
+
+    .navigation {
+      display: none;
+    }
+
+    .mobileNavigation {
+      @include flex-column-center;
+      display: flex;
+      ul {
+        margin-top: 210px;
+      }
+
+      .hamburgerIcon {
+        position: absolute;
+        right: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+}
