@@ -25,14 +25,7 @@ export const Router = () => {
           </PrivateRoute>
         }
       />
-      <Route
-        path="/collection"
-        element={
-          <PrivateRoute>
-            <CollectionPage />
-          </PrivateRoute>
-        }
-      />
+      <Route path="/collection" element={<CollectionPage />} />
       <Route path="/404" element={<NotFoundPage />} />
       <Route path="*" element={<Navigate to="/404" replace />} />
     </Routes>

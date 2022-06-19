@@ -15,8 +15,8 @@ export const PrivateRoute = ({ children }: IPrivateRoute) => {
   const verify = async () => {
     if (localStorage.getItem('accessToken')) {
       await dispatch(checkAuthAsync());
-      setLoad(false);
     }
+    setLoad(false);
   };
 
   useEffect(() => {

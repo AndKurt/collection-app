@@ -27,6 +27,8 @@ export const authSlice = createSlice({
     },
     setIsAuth(state, action: PayloadAction<boolean>) {
       state.isAuth = action.payload;
+      localStorage.removeItem('accessToken');
+      document.cookie = 'refreshToken' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     },
   },
   extraReducers: {

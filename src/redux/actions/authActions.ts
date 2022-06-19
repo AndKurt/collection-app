@@ -33,7 +33,6 @@ export const loginUserAsync = createAsyncThunk('auth/login', async (data: ILogin
 
 export const logoutUserAsync = createAsyncThunk('auth/logout', async () => {
   await $api.post(`${BASE_URL}/logout`);
-  localStorage.removeItem('accessToken');
 });
 
 export const checkAuthAsync = createAsyncThunk('auth/checkAuth', async (_, thunkApi) => {

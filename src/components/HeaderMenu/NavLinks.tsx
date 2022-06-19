@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { logoutUserAsync } from '../../redux/actions/authActions';
 import { motion } from 'framer-motion';
 import useOnclickOutside from 'react-cool-onclickoutside';
+import { authSlice } from '../../redux/reducers/authReducer';
 
 interface INavLinks {
   isMobile?: boolean;
@@ -23,7 +24,8 @@ export const NavLinks = ({ isMobile, closeMobileMenu }: INavLinks) => {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUserAsync());
+    dispatch(authSlice.actions.setIsAuth(false));
+    dispatch(logoutUserAsync()).unwrap();
     closeMobile();
   };
 
@@ -33,11 +35,13 @@ export const NavLinks = ({ isMobile, closeMobileMenu }: INavLinks) => {
 
   return (
     <ul ref={closeRef}>
-      <motion.li initial={animateFrom} animate={animateTo} transition={{ delay: 0.1 }}>
-        <Link to="/admin" onClick={() => closeMobile()}>
-          Admin control
-        </Link>
-      </motion.li>
+      {isAuth && (
+        <motion.li initial={animateFrom} animate={animateTo} transition={{ delay: 0.1 }}>
+          <Link to="/admin" onClick={() => closeMobile()}>
+            Admin control
+          </Link>
+        </motion.li>
+      )}
       <motion.li initial={animateFrom} animate={animateTo} transition={{ delay: 0.2 }}>
         <Link to="/collection" onClick={() => closeMobile()}>
           Collections
