@@ -8,3 +8,8 @@ export interface IUser {
   isLocked: boolean;
   isAdmin: boolean;
 }
+export interface IResponseApiUser {
+  accessToken: string;
+  refreshToken: string;
+  user: IUser;
+}

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { act } from 'react-dom/test-utils';
 import {
   checkAuthAsync,
   loginUserAsync,
@@ -10,12 +11,14 @@ interface IUserSlice {
   isLoading: boolean;
   error: string;
   isAuth: boolean;
+  isAdmin: boolean;
 }
 
 const initialState: IUserSlice = {
   isLoading: false,
   error: '',
   isAuth: false,
+  isAdmin: false,
 };
 
 export const authSlice = createSlice({
@@ -48,10 +51,11 @@ export const authSlice = createSlice({
       state.isLoading = true;
       state.error = '';
     },
-    [loginUserAsync.fulfilled.type]: (state) => {
+    [loginUserAsync.fulfilled.type]: (state, action: PayloadAction<boolean>) => {
       state.isLoading = false;
       state.error = '';
       state.isAuth = true;
+      state.isAdmin = action.payload;
     },
     [loginUserAsync.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
@@ -66,6 +70,7 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.error = '';
       state.isAuth = false;
+      state.isAdmin = false;
     },
     [logoutUserAsync.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
@@ -75,14 +80,14 @@ export const authSlice = createSlice({
       state.isLoading = true;
       state.error = '';
     },
-    [checkAuthAsync.fulfilled.type]: (state) => {
+    [checkAuthAsync.fulfilled.type]: (state, action: PayloadAction<boolean>) => {
       state.isLoading = false;
       state.error = '';
       state.isAuth = true;
+      state.isAdmin = action.payload;
     },
-    [checkAuthAsync.rejected.type]: (state, action: PayloadAction<string>) => {
+    [checkAuthAsync.rejected.type]: (state) => {
       state.isLoading = false;
-      state.error = action.payload;
       state.isAuth = false;
     },
   },

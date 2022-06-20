@@ -12,7 +12,7 @@ interface INavLinks {
 }
 
 export const NavLinks = ({ isMobile, closeMobileMenu }: INavLinks) => {
-  const { isAuth } = useAppSelector((state) => state.authReducer);
+  const { isAdmin, isAuth } = useAppSelector((state) => state.authReducer);
   const dispatch = useAppDispatch();
   const animateFrom = { opacity: 0, y: -40 };
   const animateTo = { opacity: 1, y: 0 };
@@ -35,7 +35,7 @@ export const NavLinks = ({ isMobile, closeMobileMenu }: INavLinks) => {
 
   return (
     <ul ref={closeRef}>
-      {isAuth && (
+      {isAuth && isAdmin && (
         <motion.li initial={animateFrom} animate={animateTo} transition={{ delay: 0.1 }}>
           <Link to="/admin" onClick={() => closeMobile()}>
             Admin control

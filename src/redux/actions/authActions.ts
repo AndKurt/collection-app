@@ -21,9 +21,8 @@ export const registrationUserAsync = createAsyncThunk(
 export const loginUserAsync = createAsyncThunk('auth/login', async (data: ILogin, thunkApi) => {
   try {
     const response = await $api.post(`${BASE_URL}/login`, data);
-
     localStorage.setItem('accessToken', response.data.accessToken);
-    return response.data;
+    return response.data.user.isAdmin;
   } catch (error) {
     const err = error as AxiosError;
     const errMessage = JSON.parse(err.request.response);
@@ -40,7 +39,9 @@ export const checkAuthAsync = createAsyncThunk('auth/checkAuth', async (_, thunk
     const response = await axios.get(`${BASE_URL}/refresh`, {
       withCredentials: true,
     });
-    localStorage.setItem('accessToken', response.data.accessToken);
+    //localStorage.setItem('accessToken', response.data.accessToken);
+
+    return response.data.user.isAdmin;
   } catch (error) {
     const err = error as AxiosError;
     const errMessage = JSON.parse(err.request.response);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './SignUpForm.module.scss';
 import { Avatar, Button, TextField } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -13,6 +13,7 @@ import { Controller, SubmitHandler, useForm, useFormState } from 'react-hook-for
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { ISignUpForm } from '../../interface/signInUp';
 import { registrationUserAsync } from '../../redux/actions/authActions';
+import { authSlice } from '../../redux/reducers/authReducer';
 
 interface IProps {
   setAlignment: (condition: string) => void;
@@ -25,6 +26,13 @@ export const SignUpForm = ({ setAlignment }: IProps) => {
     control,
   });
   const dispatch = useAppDispatch();
+  const { clearError } = authSlice.actions;
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, []);
 
   const password = watch('password');
 

@@ -5,14 +5,11 @@ import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import { Button, ButtonGroup } from '@mui/material';
 import { GridRowId } from '@mui/x-data-grid';
-//import { usersDataSlice } from '../../redux/reducers/usersData';
-//import { deleteUserApi } from '../../redux/actions/deleteUser';
-//import { updateUserApi } from '../../redux/actions/updateUser';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../redux/hooks';
 import { getCurrentUserIdJWT } from '../../../utils/jwt';
 import { logoutUserAsync } from '../../../redux/actions/authActions';
-//import { loginSlice } from '../../redux/reducers/loginSlice';
+import { deleteUserAsync, updateUserAsync } from '../../../redux/actions/usersAction';
 
 interface IAdminControls {
   arrIds: GridRowId[];
@@ -21,11 +18,9 @@ interface IAdminControls {
 export const AdminControls = ({ arrIds }: IAdminControls) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
-  //const { setUsersStatusUnlock, setUsersStatusLock, deleteUsers } = usersDataSlice.actions;
-  //const { setTokenStatus } = loginSlice.actions;
+  const currentUserId = getCurrentUserIdJWT();
 
   const logOutUser = () => {
-    const currentUserId = getCurrentUserIdJWT();
     const activeUserId = arrIds.find((id) => id === currentUserId);
     if (activeUserId) {
       dispatch(logoutUserAsync());
@@ -35,38 +30,71 @@ export const AdminControls = ({ arrIds }: IAdminControls) => {
 
   const handleDelete = () => {
     if (arrIds.length > 0) {
-      //dispatch(deleteUsers(arrIds));
-      //arrIds.forEach((id) => dispatch(deleteUserApi(id as string)));
+      arrIds.forEach((id) => {
+        dispatch(deleteUserAsync(id as string));
+      });
     }
     logOutUser();
   };
+
   const handleUnlock = () => {
     if (arrIds.length > 0) {
-      //dispatch(setUsersStatusUnlock(arrIds));
-      //arrIds.forEach((id) => dispatch(updateUserApi({ id: id as string, isLocked: false })));
+      arrIds.forEach((id) => {
+        dispatch(
+          updateUserAsync({
+            _id: id as string,
+            isLocked: false,
+            currentId: currentUserId as string,
+          })
+        );
+      });
     }
   };
   const handleLock = () => {
     if (arrIds.length > 0) {
-      //dispatch(setUsersStatusLock(arrIds));
-      //arrIds.forEach((id) => dispatch(updateUserApi({ id: id as string, isLocked: true })));
+      arrIds.forEach((id) => {
+        dispatch(
+          updateUserAsync({
+            _id: id as string,
+            isLocked: true,
+            currentId: currentUserId as string,
+          })
+        );
+      });
+
       logOutUser();
     }
   };
 
   const handleAddAdminRole = () => {
     if (arrIds.length > 0) {
-      //dispatch(setUsersStatusLock(arrIds));
-      //arrIds.forEach((id) => dispatch(updateUserApi({ id: id as string, isLocked: true })));
+      if (arrIds.length > 0) {
+        arrIds.forEach((id) => {
+          dispatch(
+            updateUserAsync({
+              _id: id as string,
+              isAdmin: true,
+              currentId: currentUserId as string,
+            })
+          );
+        });
+      }
     }
   };
 
   const handleRemoveAdminRole = () => {
     if (arrIds.length > 0) {
-      //dispatch(setUsersStatusLock(arrIds));
-      //arrIds.forEach((id) => dispatch(updateUserApi({ id: id as string, isLocked: true })));
-      logOutUser();
+      arrIds.forEach((id) => {
+        dispatch(
+          updateUserAsync({
+            _id: id as string,
+            isAdmin: false,
+            currentId: currentUserId as string,
+          })
+        );
+      });
     }
+    logOutUser();
   };
 
   return (

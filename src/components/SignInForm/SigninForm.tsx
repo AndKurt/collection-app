@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useNavigate } from 'react-router-dom';
 import { ILogin } from '../../interface/signInUp';
 import { loginUserAsync } from '../../redux/actions/authActions';
-//import { authSlice } from '../../redux/reducers/authReducer';
+import { authSlice } from '../../redux/reducers/authReducer';
 
 export const SigninForm = () => {
   const { handleSubmit, control, reset, register } = useForm<ILogin>();
@@ -17,14 +17,14 @@ export const SigninForm = () => {
     control,
   });
   const { error } = useAppSelector((state) => state.authReducer);
+  const { clearError } = authSlice.actions;
   const navigation = useNavigate();
-  //const { clearError } = authSlice.actions;
 
-  //useEffect(() => {
-  //  if (error === 'User unauthorized') {
-  //    dispatch(clearError());
-  //  }
-  //}, []);
+  useEffect(() => {
+    return () => {
+      dispatch(clearError());
+    };
+  }, []);
 
   const onsubmit: SubmitHandler<ILogin> = async (data) => {
     if (data) {
