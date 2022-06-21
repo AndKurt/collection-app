@@ -47,15 +47,22 @@ export const NavLinks = ({ isMobile, closeMobileMenu }: INavLinks) => {
           Collections
         </Link>
       </motion.li>
-      {!isAuth && (
+      {isAuth && (
         <motion.li initial={animateFrom} animate={animateTo} transition={{ delay: 0.3 }}>
+          <Link to="/personal" onClick={() => closeMobile()}>
+            Personal
+          </Link>
+        </motion.li>
+      )}
+      {!isAuth && (
+        <motion.li initial={animateFrom} animate={animateTo} transition={{ delay: 0.4 }}>
           <Link to="/login" onClick={() => closeMobile()}>
             Log In
           </Link>
         </motion.li>
       )}
       {isAuth && (
-        <motion.li initial={animateFrom} animate={animateTo} transition={{ delay: 0.4 }}>
+        <motion.li initial={animateFrom} animate={animateTo} transition={{ delay: 0.5 }}>
           <Link to="/" onClick={handleLogout}>
             Log Out
           </Link>

@@ -5,7 +5,7 @@ import styles from './AdminPage.module.scss';
 export const AdminPage = () => {
   return (
     <main className={styles.adminPage}>
-      <h2>Admin control</h2>
+      <h3 className={styles.title}>Admin control</h3>
       <AdminTable />
     </main>
   );

@@ -9,3 +9,5 @@ export { Loader } from './Loader/Loader';
 export { AdminControls } from './AdminTable/AdminControls/AdminControls';
 export { AdminTable } from './AdminTable/AdminTable';
 export { HeaderMenu } from './HeaderMenu/HeaderMenu';
+export { CollectionCreateForm } from './CollectionCreateForm/CollectionCreateForm';
+export { Modal } from './Modal/Modal';
