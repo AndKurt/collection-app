@@ -1,0 +1,22 @@
+@import '../../styles/variables.scss';
+
+.title {
+  text-align: center;
+  margin: 10px 0;
+  color: $brown;
+}
+
+.helper {
+  @include flex-column-center;
+}
+
+.dataPicker input {
+  text-align: center;
+  width: 100%;
+  padding: 6px 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 1px solid #555;
+  outline: none;
+  margin: 0 0 10px 0;
+}

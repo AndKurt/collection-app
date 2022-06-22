@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import styles from './PersonalPage.module.scss';
 import AddIcon from '@mui/icons-material/Add';
-import { Modal, SearchBar } from '../../components';
+import { CollectionCreateForm, Modal } from '../../components';
 
 export const PersonalPage = () => {
   const [isCreateCollectionForm, setIsCollectionForm] = useState(false);
@@ -14,7 +14,7 @@ export const PersonalPage = () => {
         <AddIcon /> New collection
       </Button>
       <Modal open={isCreateCollectionForm} onClose={() => setIsCollectionForm(false)}>
-        {<SearchBar />}
+        {<CollectionCreateForm />}
       </Modal>
     </main>
   );
