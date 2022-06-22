@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import $api from '../../api';
 import { BASE_URL } from '../../constants';
-import { IUser } from '../../interface/users';
 import { getCurrentUserIdJWT } from '../../utils/jwt';
 
 export const getUsersAsync = createAsyncThunk('user/getUsers', async (_, thunkApi) => {

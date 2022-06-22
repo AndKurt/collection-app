@@ -1,15 +1,26 @@
 import React, { useEffect } from 'react';
+import { Loader } from '../../components';
 import { checkAuthAsync } from '../../redux/actions/authActions';
-import { useAppDispatch } from '../../redux/hooks';
+import { getCollectionsAsync } from '../../redux/actions/collectionActions';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import styles from './CollectionPage.module.scss';
 
 export const CollectionPage = () => {
   const dispatch = useAppDispatch();
+  const { isLoading, collections } = useAppSelector((state) => state.collectionReducer);
+  console.log(collections);
+
   useEffect(() => {
     if (localStorage.getItem('accessToken')) {
       dispatch(checkAuthAsync()).unwrap();
     }
+    dispatch(getCollectionsAsync());
   }, []);
 
-  return <main className={styles.collectionPage}>CollectionPage</main>;
+  return (
+    <main className={styles.collectionPage}>
+      <h3 className={styles.title}>Collections</h3>
+      {isLoading && <Loader />}
+    </main>
+  );
 };

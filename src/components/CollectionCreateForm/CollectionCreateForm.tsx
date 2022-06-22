@@ -7,38 +7,48 @@ import { Button } from '@mui/material';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { createCollectionAsync } from '../../redux/actions/collectionActions';
+import { ICollection } from '../../interface/collections';
+import { getCurrentUserIdJWT } from '../../utils/jwt';
+import { Loader } from '../Loader/Loader';
 
 interface ICollectForm {
   collectionTitle: string;
   collectionDescription: string;
   country: string;
   city: string;
-  date: string;
+  date: [Date | string, Date | null | string];
 }
 
-export const CollectionCreateForm = () => {
+type CollectionCreateFormType = {
+  setIsCollectionForm: (value: boolean) => void;
+};
+
+export const CollectionCreateForm = ({ setIsCollectionForm }: CollectionCreateFormType) => {
   const { register, handleSubmit, control } = useForm<ICollectForm>({
     defaultValues: {
       collectionTitle: '',
       collectionDescription: '',
       country: '',
       city: '',
-      date: '',
     },
   });
-
-  //const [startDate, setStartDate] = useState(new Date());
-  //const [endDate, setEndDate] = useState<Date | null>(null);
-  //const onChangeDate = (dates: [Date, Date | null]) => {
-  //  const [start, end] = dates;
-  //  setStartDate(start);
-  //  setEndDate(end);
-  //};
+  const dispatch = useAppDispatch();
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([new Date(), null]);
   const [startDate, endDate] = dateRange;
 
   const handleCreateCollection = (data: ICollectForm) => {
-    console.log(data);
+    const createData: ICollection = {
+      ownerId: getCurrentUserIdJWT() as string,
+      collectionTitle: data.collectionTitle,
+      collectionDescription: data.collectionDescription,
+      country: data.country,
+      city: data.city,
+      date: data.date,
+    };
+    dispatch(createCollectionAsync(createData));
+    setIsCollectionForm(false);
   };
 
   return (
