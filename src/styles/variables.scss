@@ -39,6 +39,10 @@ $violet: #9c27b0;
   line-height: 64px;
 }
 
+@mixin text12 {
+  font-size: 12px;
+  line-height: 16px;
+}
 @mixin text16 {
   font-size: 16px;
   line-height: 24px;
@@ -52,4 +56,11 @@ $violet: #9c27b0;
 @mixin text36 {
   font-size: 36px;
   line-height: 42px;
+}
+
+//error message
+.error_msg {
+  color: $red;
+  @include text12;
+  margin-bottom: 5px;
 }

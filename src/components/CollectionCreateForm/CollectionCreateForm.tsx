@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { createCollectionAsync } from '../../redux/actions/collectionActions';
 import { ICollection } from '../../interface/collections';
 import { getCurrentUserIdJWT } from '../../utils/jwt';
-import { Loader } from '../Loader/Loader';
+import { convertDate } from '../../utils/convertDate';
 
 interface ICollectForm {
   collectionTitle: string;
@@ -22,11 +22,32 @@ interface ICollectForm {
 }
 
 type CollectionCreateFormType = {
-  setIsCollectionForm: (value: boolean) => void;
+  setModal: (value: boolean) => void;
+  id?: string;
+  ownerId?: string;
+  collectionTitle?: string;
+  collectionDescription?: string;
+  country?: string;
+  city?: string;
+  date?: [string | Date, string | Date | null];
 };
 
-export const CollectionCreateForm = ({ setIsCollectionForm }: CollectionCreateFormType) => {
-  const { register, handleSubmit, control } = useForm<ICollectForm>({
+export const CollectionCreateForm = ({
+  setModal,
+  id,
+  ownerId,
+  collectionTitle,
+  collectionDescription,
+  country,
+  city,
+  date,
+}: CollectionCreateFormType) => {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<ICollectForm>({
     defaultValues: {
       collectionTitle: '',
       collectionDescription: '',
@@ -45,10 +66,10 @@ export const CollectionCreateForm = ({ setIsCollectionForm }: CollectionCreateFo
       collectionDescription: data.collectionDescription,
       country: data.country,
       city: data.city,
-      date: data.date,
+      date: [convertDate(data.date[0]), convertDate(data.date[1])],
     };
     dispatch(createCollectionAsync(createData));
-    setIsCollectionForm(false);
+    setModal(false);
   };
 
   return (
@@ -66,6 +87,7 @@ export const CollectionCreateForm = ({ setIsCollectionForm }: CollectionCreateFo
               fullWidth
               autoComplete="Input title..."
               variant="filled"
+              value={collectionTitle}
             />
           </Grid>
           <Grid item xs={12}>
@@ -80,6 +102,7 @@ export const CollectionCreateForm = ({ setIsCollectionForm }: CollectionCreateFo
               fullWidth
               autoComplete="Input description..."
               variant="filled"
+              value={collectionDescription}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -92,6 +115,7 @@ export const CollectionCreateForm = ({ setIsCollectionForm }: CollectionCreateFo
               fullWidth
               autoComplete="shipping country"
               variant="filled"
+              value={country}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -104,6 +128,7 @@ export const CollectionCreateForm = ({ setIsCollectionForm }: CollectionCreateFo
               fullWidth
               autoComplete="shipping address-level2"
               variant="filled"
+              value={city}
             />
           </Grid>
           {/*<Grid item xs={12}>
@@ -117,25 +142,31 @@ export const CollectionCreateForm = ({ setIsCollectionForm }: CollectionCreateFo
             <Controller
               name={'date'}
               control={control}
+              rules={{ required: true }}
               render={({ field }) => {
                 return (
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(e) => {
-                      setDateRange(e);
-                      field.onChange(e);
-                    }}
-                    startDate={startDate}
-                    endDate={endDate}
-                    dateFormat="dd/MM/yyyy"
-                    selectsRange
-                    wrapperClassName={styles.dataPicker}
-                  />
+                  <>
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(e) => {
+                        setDateRange(e);
+                        field.onChange(e);
+                      }}
+                      startDate={startDate}
+                      endDate={endDate}
+                      dateFormat="dd/MM/yyyy"
+                      selectsRange
+                      wrapperClassName={styles.dataPicker}
+                    />
+                    {errors.date && (
+                      <div className={styles.error_msg}>Please fill date of your journey</div>
+                    )}
+                  </>
                 );
               }}
             ></Controller>
             <Button variant="contained" type="submit">
-              Create
+              {id ? 'Edit' : 'Create'}
             </Button>
           </div>
         </Grid>

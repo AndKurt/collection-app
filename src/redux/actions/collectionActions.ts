@@ -50,9 +50,11 @@ export const createCollectionAsync = createAsyncThunk(
 
 export const deleteCollectionAsync = createAsyncThunk(
   'collection/deleteCollection',
-  async (id, thunkApi) => {
+  async (id: string, thunkApi) => {
     try {
-      const response = await $api.delete(`${BASE_URL}/collection`, { data: { id: id } });
+      const response = await $api.delete(`${BASE_URL}/collection`, {
+        data: { id: id },
+      });
       return response.data;
     } catch (error) {
       const err = error as AxiosError;
