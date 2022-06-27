@@ -1,6 +1,7 @@
 export interface ICollection {
   _id?: string;
   ownerId: string;
+  ownerName?: string;
   collectionTitle: string;
   collectionDescription: string;
   country: string;

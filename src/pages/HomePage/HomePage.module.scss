@@ -10,3 +10,7 @@
     color: $brown;
   }
 }
+
+.isLoading {
+  @include flex-column-center-center;
+}

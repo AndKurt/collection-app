@@ -5,14 +5,18 @@ import AddIcon from '@mui/icons-material/Add';
 import { CardForCollection, CollectionCreateForm, Loader, Modal } from '../../components';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getCollectionsAsync } from '../../redux/actions/collectionActions';
+import { getCurrentUserIdJWT } from '../../utils/jwt';
 
 export const PersonalPage = () => {
   const [isCreateCollectionForm, setIsCreateCollectionForm] = useState(false);
   const dispatch = useAppDispatch();
   const { isLoading, collections } = useAppSelector((state) => state.collectionReducer);
+  const { isAdmin } = useAppSelector((state) => state.authReducer);
 
   useEffect(() => {
-    dispatch(getCollectionsAsync());
+    if (!collections.length) {
+      dispatch(getCollectionsAsync());
+    }
   }, []);
 
   return (
@@ -27,19 +31,28 @@ export const PersonalPage = () => {
       {isLoading && <Loader />}
       <Grid container spacing={2} sx={{ padding: '15px' }}>
         {collections.length > 0 &&
-          collections.map((collection) => (
-            <Grid key={collection._id} item xs sx={{ display: 'flex', justifyContent: 'center' }}>
-              <CardForCollection
-                _id={collection._id}
-                ownerId={collection.ownerId}
-                collectionTitle={collection.collectionTitle}
-                collectionDescription={collection.collectionDescription}
-                country={collection.country}
-                city={collection.city}
-                date={collection.date}
-              />
-            </Grid>
-          ))}
+          collections
+            .filter((collection) => {
+              if (isAdmin) {
+                return collection;
+              } else {
+                return collection.ownerId === getCurrentUserIdJWT();
+              }
+            })
+            .map((collection) => (
+              <Grid key={collection._id} item xs sx={{ display: 'flex', justifyContent: 'center' }}>
+                <CardForCollection
+                  _id={collection._id}
+                  ownerId={collection.ownerId}
+                  ownerName={collection.ownerName}
+                  collectionTitle={collection.collectionTitle}
+                  collectionDescription={collection.collectionDescription}
+                  country={collection.country}
+                  city={collection.city}
+                  date={collection.date}
+                />
+              </Grid>
+            ))}
       </Grid>
     </main>
   );

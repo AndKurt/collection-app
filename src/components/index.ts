@@ -12,3 +12,4 @@ export { HeaderMenu } from './HeaderMenu/HeaderMenu';
 export { CollectionCreateForm } from './CollectionCreateForm/CollectionCreateForm';
 export { Modal } from './Modal/Modal';
 export { CardForCollection } from './CardForCollection/CardForCollection';
+export { SimpleCardCollection } from './SimpleCardCollection/SimpleCardCollection';

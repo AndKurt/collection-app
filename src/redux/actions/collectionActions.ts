@@ -20,6 +20,7 @@ export const getCollectionsAsync = createAsyncThunk(
 
 interface ICreateCollection {
   ownerId: string;
+  ownerName?: string;
   collectionTitle: string;
   collectionDescription: string;
   country: string;
@@ -33,6 +34,7 @@ export const createCollectionAsync = createAsyncThunk(
     try {
       const response = await $api.post(`${BASE_URL}/collection`, {
         ownerId: data.ownerId,
+        ownerName: data.ownerName,
         collectionTitle: data.collectionTitle,
         collectionDescription: data.collectionDescription,
         country: data.country,
@@ -65,8 +67,9 @@ export const deleteCollectionAsync = createAsyncThunk(
 );
 
 interface IUpdateCollection {
-  _id: string;
+  _id?: string;
   ownerId: string;
+  ownerName?: string;
   collectionTitle?: string;
   collectionDescription?: string;
   country?: string;
@@ -81,6 +84,7 @@ export const updateCollectionAsync = createAsyncThunk(
       const response = await $api.put(`${BASE_URL}/collection`, {
         id: data._id,
         ownerId: data.ownerId,
+        ownerName: data.ownerName,
         collectionTitle: data.collectionTitle,
         collectionDescription: data.collectionDescription,
         country: data.country,

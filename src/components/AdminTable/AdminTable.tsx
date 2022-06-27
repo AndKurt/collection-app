@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './AdminTable.module.scss';
 import { DataGrid, GridColDef, GridRowId, GridValueGetterParams } from '@mui/x-data-grid';
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppSelector } from '../../redux/hooks';
 import { AdminControls, Loader } from '..';
 import { Box } from '@mui/material';
-import { getUsersAsync } from '../../redux/actions/usersAction';
 
 const columns: GridColDef[] = [
   {
@@ -50,12 +49,7 @@ const columns: GridColDef[] = [
 
 export const AdminTable = () => {
   const [arrIds, setArrIds] = useState<GridRowId[]>([]);
-  const dispatch = useAppDispatch();
   const { isLoading, users } = useAppSelector((state) => state.usersReducer);
-
-  useEffect(() => {
-    dispatch(getUsersAsync());
-  }, []);
 
   return (
     <Box className={styles.wrapper}>

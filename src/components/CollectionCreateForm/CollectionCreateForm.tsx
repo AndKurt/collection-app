@@ -7,10 +7,13 @@ import { Button } from '@mui/material';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { createCollectionAsync } from '../../redux/actions/collectionActions';
+import { useAppDispatch } from '../../redux/hooks';
+import {
+  createCollectionAsync,
+  updateCollectionAsync,
+} from '../../redux/actions/collectionActions';
 import { ICollection } from '../../interface/collections';
-import { getCurrentUserIdJWT } from '../../utils/jwt';
+import { getCurrentUserFullNameJWT, getCurrentUserIdJWT } from '../../utils/jwt';
 import { convertDate } from '../../utils/convertDate';
 
 interface ICollectForm {
@@ -35,12 +38,10 @@ type CollectionCreateFormType = {
 export const CollectionCreateForm = ({
   setModal,
   id,
-  ownerId,
   collectionTitle,
   collectionDescription,
   country,
   city,
-  date,
 }: CollectionCreateFormType) => {
   const {
     register,
@@ -58,10 +59,17 @@ export const CollectionCreateForm = ({
   const dispatch = useAppDispatch();
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([new Date(), null]);
   const [startDate, endDate] = dateRange;
+  const [collectionData, setCollectionData] = useState({
+    collectionTitle: collectionTitle || '',
+    collectionDescription: collectionDescription || '',
+    country: country || '',
+    city: city || '',
+  });
 
   const handleCreateCollection = (data: ICollectForm) => {
     const createData: ICollection = {
       ownerId: getCurrentUserIdJWT() as string,
+      ownerName: getCurrentUserFullNameJWT(),
       collectionTitle: data.collectionTitle,
       collectionDescription: data.collectionDescription,
       country: data.country,
@@ -72,10 +80,25 @@ export const CollectionCreateForm = ({
     setModal(false);
   };
 
+  const handleUpdateCollection = (data: ICollectForm) => {
+    const updateData: ICollection = {
+      _id: id,
+      ownerId: getCurrentUserIdJWT() as string,
+      ownerName: getCurrentUserFullNameJWT(),
+      collectionTitle: collectionData.collectionTitle as string,
+      collectionDescription: collectionData.collectionDescription as string,
+      country: collectionData.country as string,
+      city: collectionData.city as string,
+      date: [convertDate(data.date[0]), convertDate(data.date[1])],
+    };
+    dispatch(updateCollectionAsync(updateData));
+    setModal(false);
+  };
+
   return (
     <div>
       <h4 className={styles.title}>Create new collection</h4>
-      <form onSubmit={handleSubmit(handleCreateCollection)}>
+      <form onSubmit={handleSubmit(id ? handleUpdateCollection : handleCreateCollection)}>
         <Grid container spacing={3} sx={{ display: 'flex', justifyContent: 'center' }}>
           <Grid item xs={12}>
             <TextField
@@ -87,7 +110,10 @@ export const CollectionCreateForm = ({
               fullWidth
               autoComplete="Input title..."
               variant="filled"
-              value={collectionTitle}
+              value={collectionData.collectionTitle}
+              onChange={(e) =>
+                setCollectionData({ ...collectionData, collectionTitle: e.target.value })
+              }
             />
           </Grid>
           <Grid item xs={12}>
@@ -102,7 +128,10 @@ export const CollectionCreateForm = ({
               fullWidth
               autoComplete="Input description..."
               variant="filled"
-              value={collectionDescription}
+              value={collectionData.collectionDescription}
+              onChange={(e) =>
+                setCollectionData({ ...collectionData, collectionDescription: e.target.value })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -115,7 +144,8 @@ export const CollectionCreateForm = ({
               fullWidth
               autoComplete="shipping country"
               variant="filled"
-              value={country}
+              value={collectionData.country}
+              onChange={(e) => setCollectionData({ ...collectionData, country: e.target.value })}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -128,7 +158,8 @@ export const CollectionCreateForm = ({
               fullWidth
               autoComplete="shipping address-level2"
               variant="filled"
-              value={city}
+              value={collectionData.city}
+              onChange={(e) => setCollectionData({ ...collectionData, city: e.target.value })}
             />
           </Grid>
           {/*<Grid item xs={12}>
