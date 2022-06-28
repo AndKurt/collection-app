@@ -92,10 +92,11 @@ export const HomePage = () => {
             <h3 className={styles.title}>Most popular collections</h3>
             <Grid container spacing={1} columns={{ md: 0 }} justifyContent="center">
               {collections.length > 0 &&
-                collections.slice(0, 5).map((collection, index) => {
+                collections.slice(0, 5).map((collection) => {
                   return (
                     <SimpleCardCollection
-                      key={collection.collectionDescription + index}
+                      key={collection._id}
+                      id={collection._id as string}
                       ownerName={collection.ownerName as string}
                       collectionTitle={collection.collectionTitle}
                       collectionDescription={collection.collectionDescription}

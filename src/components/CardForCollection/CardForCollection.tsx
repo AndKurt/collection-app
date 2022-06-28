@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { ICollection } from '../../interface/collections';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { deleteCollectionAsync } from '../../redux/actions/collectionActions';
 import { CollectionCreateForm, Modal } from '..';
+import { Link } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
+
+interface ICardForCollection extends ICollection {
+  isPersonalPage?: boolean;
+}
 
 export const CardForCollection = ({
   _id: id,
@@ -19,7 +24,8 @@ export const CardForCollection = ({
   country,
   city,
   date,
-}: ICollection) => {
+  isPersonalPage,
+}: ICardForCollection) => {
   const dispatch = useAppDispatch();
   const { isAdmin } = useAppSelector((state) => state.authReducer);
   const [isEditCollection, setIsEditCollection] = useState(false);
@@ -32,7 +38,7 @@ export const CardForCollection = ({
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }} id={id}>
+    <Card sx={{ maxWidth: 345, position: 'relative' }} id={id}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {collectionTitle}
@@ -51,10 +57,20 @@ export const CardForCollection = ({
         </Typography>
         {isAdmin && (
           <Typography variant="body2" color="text.secondary">
-            Owner: {ownerName}
+            Author: {ownerName}
           </Typography>
         )}
       </CardContent>
+      {isPersonalPage && (
+        <Button
+          size="small"
+          variant="contained"
+          sx={{ position: 'absolute', top: 10, right: 10 }}
+          color="success"
+        >
+          <AddIcon /> Add item
+        </Button>
+      )}
       <CardActions>
         <Button size="small" onClick={handleEditCollection}>
           Edit
@@ -62,7 +78,9 @@ export const CardForCollection = ({
         <Button size="small" onClick={handleDeleteCollection}>
           Delete
         </Button>
-        <Button size="small">See collection</Button>
+        <Link to={`/collection/${id}`}>
+          <Button size="small">Details</Button>
+        </Link>
       </CardActions>
       <Modal open={isEditCollection} onClose={() => setIsEditCollection(false)}>
         {

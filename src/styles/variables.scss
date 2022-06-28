@@ -64,3 +64,8 @@ $violet: #9c27b0;
   @include text12;
   margin-bottom: 5px;
 }
+
+//Loading
+.isLoading {
+  @include flex-column-center-center;
+}

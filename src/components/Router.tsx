@@ -26,7 +26,7 @@ export const Router = () => {
         path="/personal"
         element={
           <PrivateRoute>
-            <PersonalPage />
+            <PersonalPage isPersonalPage />
           </PrivateRoute>
         }
       />

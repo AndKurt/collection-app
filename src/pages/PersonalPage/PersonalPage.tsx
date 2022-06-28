@@ -7,7 +7,11 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getCollectionsAsync } from '../../redux/actions/collectionActions';
 import { getCurrentUserIdJWT } from '../../utils/jwt';
 
-export const PersonalPage = () => {
+type PersonalPageType = {
+  isPersonalPage: boolean;
+};
+
+export const PersonalPage = ({ isPersonalPage }: PersonalPageType) => {
   const [isCreateCollectionForm, setIsCreateCollectionForm] = useState(false);
   const dispatch = useAppDispatch();
   const { isLoading, collections } = useAppSelector((state) => state.collectionReducer);
@@ -42,6 +46,7 @@ export const PersonalPage = () => {
             .map((collection) => (
               <Grid key={collection._id} item xs sx={{ display: 'flex', justifyContent: 'center' }}>
                 <CardForCollection
+                  isPersonalPage={isPersonalPage}
                   _id={collection._id}
                   ownerId={collection.ownerId}
                   ownerName={collection.ownerName}

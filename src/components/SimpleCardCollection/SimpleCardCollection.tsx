@@ -7,6 +7,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 
 interface ISimpleCardCollection {
+  id: string;
   ownerName: string;
   collectionTitle: string;
   collectionDescription: string;
@@ -14,6 +15,7 @@ interface ISimpleCardCollection {
 }
 
 export const SimpleCardCollection = ({
+  id,
   ownerName,
   collectionTitle,
   collectionDescription,
@@ -21,7 +23,7 @@ export const SimpleCardCollection = ({
 }: ISimpleCardCollection) => {
   return (
     <Grid item xs={12} md={6} sx={{ padding: '5px' }}>
-      <CardActionArea component="a" href="#">
+      <CardActionArea component="a" href={`/collection/${id}`}>
         <Card sx={{ display: 'flex' }}>
           <CardContent sx={{ flex: 1, padding: '5px' }}>
             <Typography component="h2" variant="h6">
@@ -31,7 +33,7 @@ export const SimpleCardCollection = ({
               Description: {collectionDescription}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              Owner: {ownerName}
+              Author: {ownerName}
             </Typography>
             <Typography marginBottom={0} variant="subtitle1" color="text.secondary">
               Items: {numOfItems}
