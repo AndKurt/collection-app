@@ -78,7 +78,7 @@ interface IUpdateCollection {
 }
 
 export const updateCollectionAsync = createAsyncThunk(
-  'user/updateCollection',
+  'collection/updateCollection',
   async (data: IUpdateCollection, thunkApi) => {
     try {
       const response = await $api.put(`${BASE_URL}/collection`, {
